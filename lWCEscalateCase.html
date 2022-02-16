@@ -1,0 +1,288 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  Ver   Date         Author                                            Modification
+ 1.1  01/17/2022   Dikshant Jain      GTMSER-8307: (Channel Partner) Education Case: Lightning Enhancements for Education Training Case Escalation, Case Closing, and Managing Case Team for Channel Partners      
+-->
+<template>
+<template if:true={ECaseStatus}>
+    <lightning-card>
+        <div class="slds-m-around_small">
+            <div class="slds-page-header" style="background:white;">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="action:new_case" alternative-text="Preview" title="Preview"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span style="font-size: medium;"><b>Escalation Information</b></span>
+                                            <span class="slds-page-header__title slds-truncate" title="Recently Viewed">{CaseNumber}</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="slds-m-around_medium .slds-theme_error slds-text-color_error">{errorShowOnUI}</div>
+        <div class="slds-text-align_right slds-form-element">
+            <label class="slds-form-element__label" for="form-element-01">* Required Information</label>
+        </div>
+        <div>
+            <template if:true={eStatus}>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_2-of-3">
+                        <label class="slds-form-element__legend slds-form-element__label labelColor">Escalation Reason</label>
+                        <lightning-combobox
+                        class="picklistColor"
+                        name="filter"
+                        label=""
+                        value={selectedValue}
+                        options={options}
+                        onchange={handlePicklistChange}
+                        placeholder="--None--"
+                        required
+                        >
+                        </lightning-combobox><br/>
+                    </div>
+                </div>
+                <div class="slds-text-body_regular">
+                    <b>Escalation Justification Template:</b><br/>
+                    a)  What is the business situation that is warranting an escalation? <br/>
+                    b)  What is the impact on your business if this issue is not addressed? <br/>
+                    c)  What workarounds have been explored and what is their feasibility?
+                </div><br/>
+            </template>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_2-of-3">
+                        <label class="slds-form-element__legend slds-form-element__label labelColor">Escalation Justification</label>
+                        <lightning-textarea name="input7" required value={testAreaValue} onchange={checktestarea} placeholder="compose your test" label="" message-when-value-missing="A message should required." ></lightning-textarea>
+                    </div>
+                </div>
+                <div>
+                    <lightning-input type="Checkbox" value={RequestACallCheckbox} class="slds-text-title_bold" style="-webkit-text-fill-color: rgb(3,45,96);" onchange={checkboxchange} label="Request a Call"></lightning-input>
+                </div>
+                <div class="slds-text-body_regular">
+                    Select a saved number below, or enter a new number to be used for this case escalation only.
+                </div><br/>
+            <template if:true={showRadioDiv}>
+                <div>
+                    <fieldset class="slds-form-element">
+                        <div class="slds-form-element__control">
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-43" value="radio-43" name="default1" onclick={radioButtonClicked}/>
+                            <label class="slds-radio__label disabled" for="radio-43">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label labelColor">Phone</span>
+                            </label>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-combobox
+                                    name="contactno"
+                                    value={selectedPhoneValue}
+                                    placeholder="Select Country"
+                                    options={countryOptions}
+                                    onchange={handleCountryChange}
+                                    disabled="true"
+                                    style="max-height: calc(((0.8125rem * 1.5) + 1rem) * 2) !important;" ></lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-input value={phoneValue} type="text" onchange={phoneNumberHandler} disabled="true" class="country-code phoneText" id="phonenNumber" name="contactno"></lightning-input>
+                                </div>
+                            </div>
+                        </span>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_2-of-3">
+                                <lightning-input type="text" style="font-weight: bold;" disabled="true" label="Extension" title="Extension"></lightning-input><br/>
+                            </div>
+                        </div>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-44" value="radio-44" name="default1" onclick={radioButtonClicked}/>
+                            <label class="slds-radio__label disabled" for="radio-44">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label labelColor"><b>Mobile</b></span>
+                            </label>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-combobox
+                                    name="contactno"
+                                    value={selectedMobileValue}
+                                    placeholder="Select Country"
+                                    options={countryOptions}
+                                    onchange={handleCountryChange}
+                                    disabled="true"></lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-input value={mobileValue} type="text" disabled="true" onchange={mobileNumberHandler} class="country-code phoneText" name="contactno"></lightning-input>
+                                </div>
+                            </div>
+                        </span><br/>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-45" value="radio-45" name="default1" data-id="defaultOtherRadioId" onclick={radioButtonClicked}/>
+                            <label class="slds-radio__label" for="radio-45">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label labelColor"><b>Other</b></span>
+                            </label>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-combobox
+                                    data-id="otherNo123"
+                                    name="contactno"
+                                    value={selectedOtherPhoneValue}
+                                    placeholder="Select Country"
+                                    options={countryOptions}
+                                    onchange={handleCountryChange}>
+                                </lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning-input value={otherPhoneValue} data-id="conNo123" type="phone" min="9999999" max="999999999999999" message-when-range-overflow="Please enter a correct number" message-when-range-underflow="Please enter a correct number" onchange={otherNumberHandler} class="country-code phoneText" name="contactno"></lightning-input>
+                                </div>
+                            </div>
+                        </span>
+                        </div>
+                    </fieldset>
+                </div><br/><br/><br/><br/><br/><br/>
+        </template>
+        <template if:false={showRadioDiv}>
+            <div>
+            <fieldset class="slds-form-element">
+                <div class="slds-form-element__control">
+                <span class="slds-radio">
+                    <input type="radio" id="radio-434" value="radio-43" name="default2" disabled/>
+                    <label class="slds-radio__label disabled" for="radio-434">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label labelColor">Phone</span>
+                    </label>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-combobox
+                            name="contactno"
+                            value={selectedPhoneValue}
+                            placeholder="Select Country"
+                            options={countryOptions}
+                            onchange={handleCountryChange}
+                            disabled="true">
+                        </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input value={phoneValue} type="text" onchange={phoneNumberHandler} maxlength="15" disabled="true" class="country-code phoneText" id="phonenNumber1" name="contactno"></lightning-input>
+                        </div>
+                    </div>
+                </span>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_2-of-3">
+                        <lightning-input type="text" style="font-weight: bold;" disabled="true" label="Extension" title="Extension"></lightning-input><br/>
+                    </div>
+                </div>
+                <span class="slds-radio">
+                    <input type="radio" id="radio-445" value="radio-445" name="default2" disabled/>
+                    <label class="slds-radio__label disabled" for="radio-445">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label labelColor"><b>Mobile</b></span>
+                    </label>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-combobox
+                            name="contactno"
+                            value={selectedMobileValue}
+                            placeholder="Select Country"
+                            options={countryOptions}
+                            onchange={handleCountryChange}
+                            disabled="true"></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input value={mobileValue} type="text" disabled="true" maxlength="15" onchange={mobileNumberHandler} class="country-code phoneText" name="contactno"></lightning-input>
+                        </div>
+                    </div>
+                </span><br/>
+                <span class="slds-radio">
+                    <input type="radio" id="radio-456" value="radio-456" name="default2" disabled/>
+                    <label class="slds-radio__label" for="radio-456">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label labelColor"><b>Other</b></span>
+                    </label>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-combobox
+                            data-id="otherNo1234"
+                            value={selectedOtherPhoneValue}
+                            name="contactno"
+                            placeholder="Select Country"
+                            options={countryOptions}
+                            onchange={handleCountryChange}
+                            disabled
+                            ></lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning-input value={otherPhoneValue} data-id="conNo1234" type="phone" min="9999999" max="999999999999999" message-when-range-overflow="Please enter a correct number" message-when-range-underflow="Please enter a correct number" disabled onchange={otherNumberHandler} class="country-code phoneText" name="contactno"></lightning-input>
+                        </div>
+                    </div>
+                </span>
+                </div>
+            </fieldset>
+        </div><br/><br/><br/><br/><br/><br/>
+    </template>
+            <div class="slds-align_absolute-center">
+                <lightning-button variant="brand" label="Submit" title="Primary action" onclick={OnSave} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button variant="Neutral" type="Cancel" label="Cancel" title="Primary action" onclick={OnCancel} class="slds-m-left_x-small"></lightning-button>
+            </div><br/><br/><br/><br/><br/><br/><br/>
+        </div>
+    </div>
+    </lightning-card>
+</template>
+<template if:true={showSpinner}>
+    <div>
+        <lightning-spinner alternative-text="Loading" size="medium" variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+</template>
+<template if:true={showClosedMessage}>
+    <lightning-card>
+    <div class="slds-m-around_small">
+        <div class="slds-page-header" style="background:white;">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="action:new_case" alternative-text="Preview" title="Preview"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span style="font-size: medium;"><b>Escalate Case</b></span>
+                                        <span class="slds-page-header__title slds-truncate" title="Recently Viewed">{CaseNumber}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-m-around_medium">
+        <b>Escalation Information</b>
+    </div>
+    <div slot="footer">
+      <div class="slds-clearfix">
+            <lightning-button variant="brand" label="Cancel" title="Primary action" onclick={OnCancel} class="slds-m-left_x-small slds-align_absolute-center"></lightning-button>                    
+      </div>
+    </div>
+    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+        <span class="slds-assistive-text">Message</span>
+        <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+          <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+          </svg>
+        </span>
+        <h2>Closed cases cannot be escalated.</h2>
+    </div>
+</lightning-card>
+</template>
+</template>

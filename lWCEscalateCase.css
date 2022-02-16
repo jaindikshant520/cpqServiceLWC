@@ -1,0 +1,19 @@
+.THIS.slds-spinner_container{
+    background: none;
+}
+.picklistColor{
+    background:content-box;
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-attachment: initial;
+    background-origin: content-box;
+    background-clip: content-box;
+    background-color: initial;
+}
+.labelColor{
+    color: rgb(3,45,96) !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
